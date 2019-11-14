@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    "indent": ["error", 2]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "parser": "babel-eslint"
+  },
+  "env": {
+    "webextensions": true,
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "chrome": true
+  }
+}

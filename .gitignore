@@ -1,0 +1,7 @@
+.idea/
+node_modules/
+dist/
+
+# Temporary
+words_alpha.txt
+languages/
