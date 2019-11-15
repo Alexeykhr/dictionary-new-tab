@@ -19,6 +19,23 @@ for quick access to the address line and other sections without using the mouse
 - `ALT + Q` - move to google translate (like "query") | **app**
 - `ALT + S` - Say the word, ttl (like "say") | **app**
 
+!
+- notification (false or repeat time)
+- background
+!
+
+- g_name
+- g_translate
+- g_transcription
+- g_translations
+- g_definitions
+- g_examples
+- g_updated_at
+
+- view_at
+- views
+- quality
+
 ## How can this be improved?
 
 - [ ] Polls of learned words

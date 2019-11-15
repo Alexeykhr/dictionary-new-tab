@@ -1,13 +1,12 @@
 'use strict'
 
-import BaseElement from '@/classes/BaseElement'
+import BaseElement from '@/app/BaseElement'
 
 export default class Header extends BaseElement {
   constructor() {
     super()
     this._word = ''
     this._translate = ''
-    this._languages = ''
   }
 
   word(word, transcription) {
@@ -28,19 +27,8 @@ export default class Header extends BaseElement {
     return this
   }
 
-  languages(from, to) {
-    // TODO Move from header element
-    this._languages = `
-      <div id="languages">
-        <span>${from}</span>-<span>${to}</span>
-      </div>
-    `
-
-    return this
-  }
-
   get output() {
-    const output = this._word + this._translate + this._languages
+    const output = this._word + this._translate
 
     return `<header>${output}</header>`
   }

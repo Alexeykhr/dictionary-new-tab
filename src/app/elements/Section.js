@@ -1,6 +1,6 @@
 'use strict'
 
-import BaseElement from '@/classes/BaseElement'
+import BaseElement from '@/app/BaseElement'
 
 export default class Section extends BaseElement {
   constructor(section) {

@@ -1,6 +1,6 @@
 'use strict'
 
-import BaseElement from '@/classes/BaseElement'
+import BaseElement from '@/app/BaseElement'
 
 export default class Example extends BaseElement {
   constructor() {
@@ -14,7 +14,7 @@ export default class Example extends BaseElement {
     return this
   }
 
-  // TODO Improved regex
+  // TODO Improve regex
   regex(word) {
     return new RegExp(word + '(?!([^<]+)?<)', 'gi')
   }
