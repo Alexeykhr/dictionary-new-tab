@@ -157,7 +157,7 @@
             rows: []
           };
 
-          translations.push(currentTranslation);
+          result.translations.push(currentTranslation);
         }
 
         continue;
@@ -175,9 +175,9 @@
         });
       }
     }
-
-    result.translations.push(translations);
   }
+
+  console.log(result)
 
   return result;
 })();
