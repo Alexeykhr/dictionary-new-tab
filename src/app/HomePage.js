@@ -1,8 +1,9 @@
 'use strict'
 
-import Example from '@/app/elements/Example'
+import DefinitionList from '@/app/elements/DefinitionList'
+import ExampleList from '@/app/elements/ExampleList'
+import { exists, shuffle } from '@/scripts/arr'
 import Section from '@/app/elements/Section'
-import { shuffle, rnd } from '@/scripts/arr'
 import Header from '@/app/elements/Header'
 
 export default class HomePage {
@@ -12,116 +13,52 @@ export default class HomePage {
   }
 
   mount() {
-    this.getCountRecords((count) => {
-      if (!count) {
-        console.log('no count')
-        // TODO
+    this.db.getRndWord((word) => {
+      if (!word) {
+        // TODO Show notification
         return
       }
 
-      const request = this.db.store.get(rnd(1, count))
+      this.data = word
 
-      request.onsuccess = () => {
-        if (request.result) {
-          console.log(request.result, count)
-          this.generate(request.result)
-        } else {
-          console.log('DATA NOT FOUND')
-        }
+      this.app.append(this.htmlHeader)
+
+      if (exists(this.data.definitions)) {
+        this.app.append(this.htmlDefinitions)
       }
 
-      request.onerror = (evt) => {
-        console.log('Error', request, evt, count)
+      if (exists(this.data.examples)) {
+        this.app.append(this.htmlExamples)
       }
     })
-
-    // console.log(this.dbRequest, this.app, request)
-    // this.dbRequest
-    // return this.db.get(word)
-    //   .then((resp) => {
-    //     this.clear()
-    //     this.data = resp
-    //
-    //     this.app.append(this.htmlHeader)
-    //     this.app.append(this.htmlDefinitions)
-    //     this.app.append(this.htmlExamples)
-    //   })
-  }
-
-  generate(word) {
-    console.log('generate', word)
   }
 
   get htmlHeader() {
     return new Header()
-      .word(this.data._id, this.data.transcription)
+      .word(this.data.name, this.data.transcription)
       .translate(this.data.translate)
       .render()
   }
 
   get htmlExamples() {
-    if (!this.data.examples) {
-      return ''
-    }
-
-    const examplesHtml = shuffle(this.data.examples)
-      .slice(0, 5)
-      .reduce((result, example) => {
-        result += new Example()
-          .content(example, this.data._id)
-          .output
-
-        return result
-      }, '')
+    const data = shuffle(this.data.examples).slice(0, 5)
 
     return new Section('section-examples')
       .title('Примеры')
-      .content(`<ul>${examplesHtml}</ul>`)
+      .content(new ExampleList()
+        .content(data, this.data.name)
+        .output
+      )
       .render()
   }
 
   get htmlDefinitions() {
-    if (!this.data.definitions) {
-      return ''
-    }
-
-    const definitionsHtml = this.data.definitions
-      .slice(0, 5)
-      .reduce((result, example) => {
-        result += `
-        <p class="name">${example.name}</p>
-        <ul>
-          <li>
-            123
-          </li>
-        </ul>`
-
-        return result
-      }, '')
-
     return new Section('section-definitions')
       .title('Определения')
-      .content(definitionsHtml)
+      .content(new DefinitionList()
+        .content(this.data.definitions)
+        .output
+      )
       .render()
-  }
-
-  getCountRecords(cb) {
-    localStorage.removeItem('count') // TODO Temporary
-
-    const count = +localStorage.getItem('count')
-
-    if (count) {
-      cb(count)
-      return
-    }
-
-    const request = this.db.store.count()
-
-    request.onsuccess = () => {
-      localStorage.setItem('count', request.result)
-      cb(request.result)
-    }
-
-    request.onerror = () => cb(0)
   }
 }

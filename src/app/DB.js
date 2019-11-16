@@ -1,5 +1,7 @@
 'use strict'
 
+import { rnd } from '@/scripts/arr'
+
 export default class DB {
   init() {
     const request = window.indexedDB.open(this.dbName, this.dbVersion)
@@ -17,6 +19,66 @@ export default class DB {
     }
 
     return request
+  }
+
+  /**
+   * Get random a word
+   * @param {function} cb
+   * @return {void} call cb
+   */
+  getRndWord(cb) {
+    this.getCountRecords((count) => {
+      if (!count) {
+        cb(null)
+        return
+      }
+
+      const cursor = this.store.openCursor()
+      let needRandom = true
+
+      cursor.onsuccess = (evt) => {
+        const result = evt.target.result
+
+        if (needRandom) {
+          const advance = rnd(0, count - 1)
+          if (advance > 0) {
+            needRandom = false
+            result.advance(advance)
+          } else {
+            cb(result.value)
+          }
+        } else {
+          cb(result.value)
+        }
+      }
+
+      cursor.onerror = () => cb(null)
+    })
+  }
+
+  /**
+   * Get count of records
+   * @param {function} cb
+   * @return {void} call cb
+   */
+  getCountRecords(cb) {
+    localStorage.removeItem('count') // TODO Temporary
+
+    const count = +localStorage.getItem('count')
+
+    if (count) {
+      cb(count)
+      return
+    }
+
+    const request = this.store.count()
+
+    request.onsuccess = () => {
+      localStorage.setItem('count', request.result)
+      cb(request.result)
+    }
+
+    request.onerror = () => cb(0)
   }
 
   set dbRequest(val) {

@@ -12,7 +12,7 @@ export default class Section extends BaseElement {
 
   title(title) {
     this._title = `
-      <div class="title">${title}</div>
+      <div class="section--title">${title}</div>
     `
 
     return this
@@ -20,7 +20,7 @@ export default class Section extends BaseElement {
 
   content(content) {
     this._content = `
-      <div class="content">${content}</div>
+      <div class="section--content">${content}</div>
     `
 
     return this

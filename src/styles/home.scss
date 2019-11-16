@@ -1,3 +1,10 @@
+@import "variables";
+
+/* | ----------------------------------------------------------------
+ * | - Header -
+ * | ----------------------------------------------------------------
+ */
+
 #word {
   display: inline-block;
   font-size: 3.5rem;
@@ -9,45 +16,71 @@
   margin-top: 10px;
   font-size: 2.2rem;
   font-weight: bold;
-  color: rgba(255, 255, 255, .8);
+  color: lighten($color, 10%);
   cursor: context-menu;
 }
 
 #transcription {
-  font-size: 1.2rem;
-  font-style: italic;
+  position: relative;
   margin-left: 10px;
+  font-size: 1.2rem;
+  color: #333;
   vertical-align: text-top;
-  color: rgba(255, 255, 255, .8);
+  padding: 2px 7px;
   user-select: none;
-}
-
-.top-wrap {
   &:after {
     content: "";
-    display: block;
-    background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
-    height: 2px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
     width: 100%;
+    height: 80%;
+    z-index: -1;
+    border-radius: 5px 10px 5px 10px;
+    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
   }
 }
 
+/* | ----------------------------------------------------------------
+ * | - Definitions -
+ * | ----------------------------------------------------------------
+ */
+
 .section-definitions {
-  > .title {
+  > .section--title {
     margin-bottom: 0;
   }
-  .name {
+  .definition-name {
     font-weight: bold;
     color: #e4a5a5;
+    font-size: 14px;
     user-select: none;
   }
+  .definition-item {
+    margin-bottom: 15px;
+  }
+  .definition-item-example {
+    font-size: 14px;
+    margin-top: 3px;
+    color: darken($color, 15%);
+    &:before {
+      content: open-quote
+    }
+    &:after {
+      content: close-quote;
+    }
+  }
 }
+
+/* | ----------------------------------------------------------------
+ * | - Example -
+ * | ----------------------------------------------------------------
+ */
 
 .section-examples {
   li {
     margin: 20px 0;
-    font-size: 14px;
     line-height: 1.6;
-    transition: .1s;
   }
 }
