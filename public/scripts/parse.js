@@ -8,7 +8,6 @@
     transcription: '',
     lang_from: 'auto',
     lang_to: '',
-    parse_at: Date.now(),
     definitions: [],
     examples: [],
     translations: []
@@ -177,7 +176,7 @@
     }
   }
 
-  console.log(result)
+  console.log(result);
 
   return result;
 })();

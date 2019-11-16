@@ -27,9 +27,9 @@ export default class HomePage {
           this.app.append(this.htmlExamples)
         }
       })
-      .catch(() => {
+      .catch((evt) => {
         // TODO Show notification
-        console.log('error')
+        console.log(evt)
       })
   }
 

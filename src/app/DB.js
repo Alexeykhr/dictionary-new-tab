@@ -35,6 +35,14 @@ export default class DB {
    */
   getRndWord() {
     return new Promise((resolve, reject) => {
+      const selectWord = (result) => {
+        if (result) {
+          resolve(result.value)
+        } else {
+          reject('Word not found')
+        }
+      }
+
       return this.getCountRecords()
         .then((count) => {
           if (!count) {
@@ -48,6 +56,11 @@ export default class DB {
           cursor.onsuccess = (evt) => {
             const result = evt.target.result
 
+            if (!result) {
+              reject('Something went wrong')
+              return
+            }
+
             if (needRandom) {
               const advance = rnd(0, count - 1)
 
@@ -55,10 +68,10 @@ export default class DB {
                 needRandom = false
                 result.advance(advance)
               } else {
-                resolve(result.value)
+                selectWord(result)
               }
             } else {
-              resolve(result.value)
+              selectWord(result)
             }
           }
 
@@ -74,18 +87,37 @@ export default class DB {
    */
   getCountRecords() {
     return new Promise((resolve, reject) => {
-      const count = +localStorage.getItem(this.storageCount)
+      const request = this.store.count()
 
-      if (count) {
-        resolve(count)
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = (evt) => reject(evt)
+    })
+  }
+
+  /**
+   * Add ew Translate to database
+   * @param {object} obj
+   * @returns {Promise<object>}
+   */
+  add(obj) {
+    return new Promise((resolve, reject) => {
+      if (!this.store) {
+        reject('No database connections')
         return
       }
 
-      const request = this.store.count()
+      const request = this.store.index('name').get(obj.name)
 
       request.onsuccess = () => {
-        localStorage.setItem(this.storageCount, request.result)
-        resolve(request.result)
+        const data = Object.assign(request.result || {}, obj, { updated_at: Date.now() })
+
+        if (request.result) {
+          this.store.put(data)
+        } else {
+          this.store.add(data)
+        }
+
+        resolve(data)
       }
 
       request.onerror = (evt) => reject(evt)
@@ -99,10 +131,6 @@ export default class DB {
     }
 
     return null
-  }
-
-  get storageCount() {
-    return 'records_count'
   }
 
   get dbName() {
