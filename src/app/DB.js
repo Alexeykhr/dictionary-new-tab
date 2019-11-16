@@ -4,98 +4,105 @@ import { rnd } from '@/helper/arr'
 
 export default class DB {
   init() {
-    const request = window.indexedDB.open(this.dbName, this.dbVersion)
+    return new Promise((resolve, reject) => {
+      const request = window.indexedDB.open(this.dbName, this.dbVersion)
 
-    request.onupgradeneeded = (evt) => {
-      const db = evt.target.result
+      request.onupgradeneeded = (evt) => {
+        const db = evt.target.result
 
-      const store = db.createObjectStore('dictionary', {
-        keyPath: 'id',
-        autoIncrement: true
-      })
+        const store = db.createObjectStore('dictionary', {
+          keyPath: 'id',
+          autoIncrement: true
+        })
 
-      // Static
-      store.createIndex('name', 'name', { unique: true })
-    }
+        // Static
+        store.createIndex('name', 'name', { unique: true })
+      }
 
-    return request
+      request.onsuccess = (evt) => {
+        this.connection = evt.target.result
+
+        resolve(this.connection)
+      }
+
+      request.onerror = (evt) => reject(evt)
+    })
   }
 
   /**
    * Get random a word
-   * @param {function} cb
-   * @return {void} call cb
+   * @return {Promise<object>}
    */
-  getRndWord(cb) {
-    this.getCountRecords((count) => {
-      if (!count) {
-        cb(null)
-        return
-      }
-
-      const cursor = this.store.openCursor()
-      let needRandom = true
-
-      cursor.onsuccess = (evt) => {
-        const result = evt.target.result
-
-        if (needRandom) {
-          const advance = rnd(0, count - 1)
-          if (advance > 0) {
-            needRandom = false
-            result.advance(advance)
-          } else {
-            cb(result.value)
+  getRndWord() {
+    return new Promise((resolve, reject) => {
+      return this.getCountRecords()
+        .then((count) => {
+          if (!count) {
+            reject('No Records Found')
+            return
           }
-        } else {
-          cb(result.value)
-        }
-      }
 
-      cursor.onerror = () => cb(null)
+          const cursor = this.store.openCursor()
+          let needRandom = true
+
+          cursor.onsuccess = (evt) => {
+            const result = evt.target.result
+
+            if (needRandom) {
+              const advance = rnd(0, count - 1)
+
+              if (advance > 0) {
+                needRandom = false
+                result.advance(advance)
+              } else {
+                resolve(result.value)
+              }
+            } else {
+              resolve(result.value)
+            }
+          }
+
+          cursor.onerror = (evt) => reject(evt)
+        })
+        .catch((err) => reject(err))
     })
   }
 
   /**
    * Get count of records
-   * @param {function} cb
-   * @return {void} call cb
+   * @returns {Promise<number>}
    */
-  getCountRecords(cb) {
-    localStorage.removeItem('count') // TODO Temporary
+  getCountRecords() {
+    return new Promise((resolve, reject) => {
+      const count = +localStorage.getItem(this.storageCount)
 
-    const count = +localStorage.getItem('count')
+      if (count) {
+        resolve(count)
+        return
+      }
 
-    if (count) {
-      cb(count)
-      return
-    }
+      const request = this.store.count()
 
-    const request = this.store.count()
+      request.onsuccess = () => {
+        localStorage.setItem(this.storageCount, request.result)
+        resolve(request.result)
+      }
 
-    request.onsuccess = () => {
-      localStorage.setItem('count', request.result)
-      cb(request.result)
-    }
-
-    request.onerror = () => cb(0)
-  }
-
-  set dbRequest(val) {
-    this._dbRequest = val
-  }
-
-  get dbRequest() {
-    return this._dbRequest
+      request.onerror = (evt) => reject(evt)
+    })
   }
 
   get store() {
-    if (this._dbRequest) {
-      return this._dbRequest.transaction(['dictionary'], 'readwrite') // readonly
+    if (this.connection) {
+      return this.connection.transaction(['dictionary'], 'readwrite')
         .objectStore('dictionary')
     }
 
     return null
+  }
+
+  get storageCount() {
+    return 'records_count'
   }
 
   get dbName() {

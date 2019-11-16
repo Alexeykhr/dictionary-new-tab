@@ -10,11 +10,13 @@ export default class Core {
   }
 
   start() {
-    this.db.init().onsuccess = (evt) => {
-      this.db.dbRequest = evt.target.result
-
-      const page = new HomePage(this.app, this.db)
-      page.mount()
-    }
+    this.db.init()
+      .then(() => {
+        const page = new HomePage(this.app, this.db)
+        page.mount()
+      })
+      .catch(() => {
+        // TODO Show Notification
+      })
   }
 }

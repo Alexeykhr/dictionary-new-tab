@@ -13,24 +13,24 @@ export default class HomePage {
   }
 
   mount() {
-    this.db.getRndWord((word) => {
-      if (!word) {
+    this.db.getRndWord()
+      .then((word) => {
+        this.data = word
+
+        this.app.append(this.htmlHeader)
+
+        if (exists(this.data.definitions)) {
+          this.app.append(this.htmlDefinitions)
+        }
+
+        if (exists(this.data.examples)) {
+          this.app.append(this.htmlExamples)
+        }
+      })
+      .catch(() => {
         // TODO Show notification
-        return
-      }
-
-      this.data = word
-
-      this.app.append(this.htmlHeader)
-
-      if (exists(this.data.definitions)) {
-        this.app.append(this.htmlDefinitions)
-      }
-
-      if (exists(this.data.examples)) {
-        this.app.append(this.htmlExamples)
-      }
-    })
+        console.log('error')
+      })
   }
 
   get htmlHeader() {
