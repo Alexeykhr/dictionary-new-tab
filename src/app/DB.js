@@ -1,6 +1,6 @@
 'use strict'
 
-import { rnd } from '@/scripts/arr'
+import { rnd } from '@/helper/arr'
 
 export default class DB {
   init() {

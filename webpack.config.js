@@ -14,10 +14,13 @@ module.exports = (env, argv) => {
 
   return {
     mode: isProd ? 'production' : 'development',
-    entry: [
-      './src/main.js',
-      './src/styles/index.scss'
-    ],
+    entry: {
+      main: [
+        './src/main.js',
+        './src/styles/index.scss'
+      ],
+      background: './src/scripts/background.js'
+    },
     devtool: isProd ? false : 'source-map',
     output: {
       filename: 'static/[name].js',
@@ -93,6 +96,7 @@ module.exports = (env, argv) => {
         filename: 'index.html',
         template: './src/index.ejs',
         inject: true,
+        chunks: ['main'],
         meta: {
           description: 'Create an automatic portfolio based on Github and other various data',
           viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'

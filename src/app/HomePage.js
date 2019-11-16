@@ -2,7 +2,7 @@
 
 import DefinitionList from '@/app/elements/DefinitionList'
 import ExampleList from '@/app/elements/ExampleList'
-import { exists, shuffle } from '@/scripts/arr'
+import { exists, shuffle } from '@/helper/arr'
 import Section from '@/app/elements/Section'
 import Header from '@/app/elements/Header'
 

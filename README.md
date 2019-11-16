@@ -12,25 +12,44 @@ This is also a practical example of how to use Webpack + Chrome Extension :)
 Since there are no bookmarks, top sites and other sections, here is a list of the necessary hot keys
 for quick access to the address line and other sections without using the mouse
 
-- `CTRL + W` - close tab | **global**
 - `CTRL + T` - new tab | **global**
+- `CTRL + W` - close tab | **global**
 - `CTRL + L` - focus on address line | **global**
-- `SPACE` - next word | **app**
-- `ALT + Q` - move to google translate (like "query") | **app**
-- `ALT + S` - Say the word, ttl (like "say") | **app**
 
-!
-- notification (false or repeat time)
-- background
-!
+# Links
+https://developer.chrome.com/extensions/notifications
+https://developer.chrome.com/extensions/alarms
+https://developer.chrome.com/extensions/contextMenus
+https://developer.chrome.com/extensions/pageAction
 
-- g_name
-- g_translate
-- g_transcription
-- g_translations
-- g_definitions
-- g_examples
-- g_updated_at
+https://stackoverflow.com/questions/19103183/how-to-insert-html-with-a-chrome-extension
+
+# Features
+- Notification
+- Background
+- Dark/Light Theme
+- Top Sites
+- Alarms (interval, wait before clear, sound)
+
+# Object
+- name
+- translate
+- transcription
+- lang_from
+- lang_to
+- updated_at
+- translations
+-- name
+-- rows
+--- word
+--- frequency
+- definitions
+-- name
+-- rows
+--- name
+--- example
+- examples
+-- text
 
 - view_at
 - views
