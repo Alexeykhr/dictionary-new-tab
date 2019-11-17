@@ -38,10 +38,12 @@
    * | ----------------------------------------------------------------------
    */
 
-  el = document.querySelector('.tlid-source-transliteration-container .tlid-transliteration-content');
-  if (el) {
-    result.transcription = el.textContent.trim();
-  }
+  // This is not transcription .. Replace code if transcription appears
+
+  // el = document.querySelector('.tlid-source-transliteration-container .tlid-transliteration-content');
+  // if (el) {
+  //   result.transcription = el.textContent.trim();
+  // }
 
   /* | ----------------------------------------------------------------------
    * | - Lang From -
