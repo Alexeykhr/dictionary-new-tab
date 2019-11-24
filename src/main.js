@@ -10,16 +10,18 @@ const globalDictionary = dictionary.get()
 const db = new DB()
 
 db.init()
-  .then(() => db.getRndWord(globalDictionary).then(mount))
+  .then(() => db.getRndWord(globalDictionary || null).then(mount))
   .catch((err) => {
-    if (!globalDictionary) {
-      document.body.innerText = err
+    if (globalDictionary) {
+      createNotification('Active Dictionary Removed', `${globalDictionary}: ${err}`)
+      dictionary.set()
+      location.reload()
       return
     }
 
-    createNotification('Active Dictionary Removed', `${globalDictionary}: ${err}`)
-    dictionary.set()
-    location.reload()
+    document.body.innerHTML = `
+      ${err}: <a style="color: #fff; text-decoration: underline" href="https://github.com/Alexeykhr/dictionary-new-tab">Documentation</a>
+    `
   })
 
 function mount(obj) {

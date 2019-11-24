@@ -98,7 +98,6 @@ module.exports = (env, argv) => {
         inject: 'head',
         chunks: ['main'],
         meta: {
-          description: 'Create an automatic portfolio based on Github and other various data',
           viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
         },
         minify: isProd ? {

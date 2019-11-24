@@ -6,7 +6,7 @@ export default {
   get() {
     return localStorage.getItem(key)
   },
-  set(val = null) {
+  set(val = '') {
     localStorage.setItem(key, val)
   }
 }
