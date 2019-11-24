@@ -42,6 +42,10 @@ main {
   max-width: 1024px;
   margin: 120px auto 0;
   will-change: margin-top;
+  > * {
+    margin-left: 130px;
+    margin-right: 130px;
+  }
 }
 
 a {

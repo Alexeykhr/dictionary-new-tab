@@ -33,7 +33,6 @@
   > * {
     display: flex;
     align-items: center;
-    margin-right: 30px;
     padding: 7px 10px;
     svg {
       fill: #fff;
@@ -41,8 +40,8 @@
     span {
       margin-left: 12px;
     }
-    &:last-child {
-      margin-right: 0;
+    &:not(:last-child) {
+      margin-right: 30px;
     }
   }
   #dictionary {
