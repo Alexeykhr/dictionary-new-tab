@@ -3,12 +3,10 @@
 const key = 'dictionary'
 
 export default {
-  get(cb) {
-    chrome.storage.sync.get([key], (val) => {
-      cb(val.dictionary)
-    })
+  get() {
+    return localStorage.getItem(key)
   },
   set(val = null) {
-    chrome.storage.sync.set({ [key]: val })
+    localStorage.setItem(key, val)
   }
 }

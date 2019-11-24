@@ -17,9 +17,7 @@
     "tabs",
     "tts",
     "notifications",
-    "alarms",
     "contextMenus",
-    "storage",
     "*://translate.google.com/*"
   ],
   "manifest_version": 2

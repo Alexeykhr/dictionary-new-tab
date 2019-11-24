@@ -6,27 +6,21 @@ import { deleteWord } from '@/helper/confirm'
 import dictionary from '@/helper/dictionary'
 import DB from '@/app/DB'
 
-let globalDictionary = null
+const globalDictionary = dictionary.get()
 const db = new DB()
 
-dictionary.get((val) => {
-  if (val) {
-    globalDictionary = val
-  }
+db.init()
+  .then(() => db.getRndWord(globalDictionary).then(mount))
+  .catch((err) => {
+    if (!globalDictionary) {
+      document.body.innerText = err
+      return
+    }
 
-  db.init()
-    .then(() => db.getRndWord(globalDictionary).then(mount))
-    .catch((err) => {
-      if (!globalDictionary) {
-        document.body.innerText = err
-        return
-      }
-
-      createNotification('Active Dictionary Removed', `${globalDictionary}: ${err}`)
-      dictionary.set()
-      location.reload()
-    })
-})
+    createNotification('Active Dictionary Removed', `${globalDictionary}: ${err}`)
+    dictionary.set()
+    location.reload()
+  })
 
 function mount(obj) {
   const app = document.querySelector('#app')
