@@ -51,7 +51,10 @@ export default class DB {
             return
           }
 
-          const cursor = this.store.index('_dictionary').openCursor(dictionary)
+          const cursor = dictionary
+            ? this.store.index('_dictionary').openCursor(dictionary)
+            : this.store.openCursor()
+
           let needRandom = true
 
           cursor.onsuccess = (evt) => {
@@ -89,7 +92,9 @@ export default class DB {
    */
   getCountRecords(dictionary = null) {
     return new Promise((resolve, reject) => {
-      const request = this.store.index('_dictionary').count(dictionary)
+      const request = dictionary
+        ? this.store.index('_dictionary').count(dictionary)
+        : this.store.count()
 
       request.onsuccess = () => resolve(request.result)
       request.onerror = reject

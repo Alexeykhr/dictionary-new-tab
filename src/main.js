@@ -10,7 +10,7 @@ const globalDictionary = dictionary.get()
 const db = new DB()
 
 db.init()
-  .then(() => db.getRndWord(globalDictionary || null).then(mount))
+  .then(() => db.getRndWord(globalDictionary).then(mount))
   .catch((err) => {
     if (globalDictionary) {
       createNotification('Active Dictionary Removed', `${globalDictionary}: ${err}`)
@@ -62,7 +62,7 @@ function mount(obj) {
   dictionaryTextElement.textContent = obj._dictionary || '-'
   dictionaryElement.addEventListener('click', () => {
     // Change dictionary for this word
-    db.add(Object.assign(obj, { _dictionary: chooseWordDictionary(obj._dictionary) }))
+    db.add(Object.assign(obj, { _dictionary: chooseWordDictionary(obj._dictionary || '') }))
       .then((resp) => {
         dictionaryTextElement.textContent = resp._dictionary || '-'
       })

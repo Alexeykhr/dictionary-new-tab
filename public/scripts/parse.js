@@ -5,7 +5,6 @@
   var result = {
     name: '',
     translate: '',
-    transcription: '',
     lang_from: 'auto',
     lang_to: '',
     definitions: [],
@@ -32,18 +31,6 @@
   if (el) {
     result.translate = el.textContent.trim();
   }
-
-  /* | ----------------------------------------------------------------------
-   * | - Transcription -
-   * | ----------------------------------------------------------------------
-   */
-
-  // This is not transcription .. Replace code if transcription appears
-
-  // el = document.querySelector('.tlid-source-transliteration-container .tlid-transliteration-content');
-  // if (el) {
-  //   result.transcription = el.textContent.trim();
-  // }
 
   /* | ----------------------------------------------------------------------
    * | - Lang From -
