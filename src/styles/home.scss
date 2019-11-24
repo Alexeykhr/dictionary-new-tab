@@ -1,86 +1,110 @@
 @import "variables";
 
-/* | ----------------------------------------------------------------
- * | - Header -
- * | ----------------------------------------------------------------
- */
+.main--home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.main--home__content {
+  max-width: 800px;
+  padding: 30px;
+  opacity: 0;
+  transition: .3s;
+  user-select: none;
+  cursor: pointer;
+}
 
 #word {
-  display: inline-block;
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: #fff;
+  font-size: 6rem;
+  will-change: font-size;
 }
 
 #translate {
-  margin-top: 10px;
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: lighten($color, 10%);
-  cursor: context-menu;
+  font-size: 2.5rem;
+  margin-top: 20px;
+  color: var(--colorSecondary);
+  will-change: font-size;
 }
 
-#transcription {
-  position: relative;
-  margin-left: 10px;
-  font-size: 1.2rem;
-  color: #333;
-  vertical-align: text-top;
-  padding: 2px 7px;
+#top-left {
+  position: absolute;
+  left: 20px;
+  top: 30px;
+  > * {
+    display: block;
+    line-height: 0;
+    padding: 30px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    transition: .15s;
+    &:hover {
+      background-color: rgba(0, 0, 0, .1);
+      border-radius: 50%;
+    }
+  }
+  svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--colorSecondary);
+  }
+}
+
+#top-right {
+  position: absolute;
+  top: 22px;
+  right: 25px;
+  display: flex;
+  align-items: center;
   user-select: none;
-  &:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    width: 100%;
-    height: 80%;
-    z-index: -1;
-    border-radius: 5px 10px 5px 10px;
-    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  > * {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    padding: 7px 10px;
+    svg {
+      fill: #fff;
+    }
+    span {
+      margin-left: 12px;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  > #dictionary {
+    cursor: pointer;
   }
 }
 
-/* | ----------------------------------------------------------------
- * | - Definitions -
- * | ----------------------------------------------------------------
- */
-
-.section-definitions {
-  > .section--title {
-    margin-bottom: 0;
-  }
-  .definition-name {
-    font-weight: bold;
-    color: #e4a5a5;
-    font-size: 14px;
-    user-select: none;
-  }
-  .definition-item {
-    margin-bottom: 15px;
-  }
-  .definition-item-example {
-    font-size: 14px;
-    margin-top: 3px;
-    color: darken($color, 15%);
-    &:before {
-      content: open-quote
-    }
-    &:after {
-      content: close-quote;
-    }
-  }
+.main--detail {
+  transition: opacity .25s ease;
+  padding: 20px;
 }
 
-/* | ----------------------------------------------------------------
- * | - Example -
- * | ----------------------------------------------------------------
- */
-
-.section-examples {
-  li {
-    margin: 20px 0;
-    line-height: 1.6;
+#app.top {
+  main {
+    margin-top: 20px;
+    transition: .25s ease;
+  }
+  #word {
+    font-size: 3.5rem;
+    transition: font-size .25s ease;
+  }
+  #translate {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    transition: .25s ease font-size, .25s ease margin-top;
+  }
+  .main--home__content {
+    cursor: auto;
+    user-select: auto;
+  }
+  .main--detail {
+    display: block;
   }
 }

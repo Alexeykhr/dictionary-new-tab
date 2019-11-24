@@ -17,23 +17,24 @@ export default class DB {
 
         // Static
         store.createIndex('name', 'name', { unique: true })
+        store.createIndex('_dictionary', '_dictionary', { unique: false })
       }
 
       request.onsuccess = (evt) => {
         this.connection = evt.target.result
-
         resolve(this.connection)
       }
 
-      request.onerror = (evt) => reject(evt)
+      request.onerror = reject
     })
   }
 
   /**
    * Get random a word
+   * @param {string|null} dictionary
    * @return {Promise<object>}
    */
-  getRndWord() {
+  getRndWord(dictionary = null) {
     return new Promise((resolve, reject) => {
       const selectWord = (result) => {
         if (result) {
@@ -43,14 +44,14 @@ export default class DB {
         }
       }
 
-      return this.getCountRecords()
+      return this.getCountRecords(dictionary)
         .then((count) => {
           if (!count) {
             reject('No Records Found')
             return
           }
 
-          const cursor = this.store.openCursor()
+          const cursor = this.store.index('_dictionary').openCursor(dictionary)
           let needRandom = true
 
           cursor.onsuccess = (evt) => {
@@ -77,20 +78,21 @@ export default class DB {
 
           cursor.onerror = (evt) => reject(evt)
         })
-        .catch((err) => reject(err))
+        .catch(reject)
     })
   }
 
   /**
    * Get count of records
+   * @param {string|null} dictionary
    * @returns {Promise<number>}
    */
-  getCountRecords() {
+  getCountRecords(dictionary = null) {
     return new Promise((resolve, reject) => {
-      const request = this.store.count()
+      const request = this.store.index('_dictionary').count(dictionary)
 
       request.onsuccess = () => resolve(request.result)
-      request.onerror = (evt) => reject(evt)
+      request.onerror = reject
     })
   }
 
@@ -102,7 +104,7 @@ export default class DB {
   add(obj) {
     return new Promise((resolve, reject) => {
       if (!this.store) {
-        reject('No database connections')
+        reject('No database connection')
         return
       }
 
@@ -120,8 +122,34 @@ export default class DB {
         resolve(data)
       }
 
-      request.onerror = (evt) => reject(evt)
+      request.onerror = reject
     })
+  }
+
+  /**
+   * @param {object} record - word
+   */
+  delete(record) {
+    return new Promise((resolve, reject) => {
+      if (!this.store) {
+        reject('No database connection')
+        return
+      }
+
+      const request = this.store.delete(record.id)
+
+      request.onsuccess = resolve
+      request.onerror = reject
+    })
+  }
+
+  /**
+   * @param {object} record - word
+   */
+  increaseViews(record) {
+    record._view_at = Date.now()
+    record._views = (+record._views || 0) + 1
+    this.store.put(record)
   }
 
   get store() {

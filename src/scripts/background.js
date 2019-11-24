@@ -1,5 +1,8 @@
 'use strict'
 
+import { create as createNotification } from '@/helper/notification'
+import { chooseWordDictionary } from '@/helper/prompt'
+import { name } from '../../package.json'
 import DB from '@/app/DB'
 
 const db = new DB()
@@ -9,71 +12,44 @@ const db = new DB()
  * | ------------------------------------------------------------------------------
  */
 
-chrome.contextMenus.remove('dictionary-new-tab')
-
 db.init().then(() => {
-  chrome.contextMenus.create({
-    id: 'dictionary-new-tab',
-    title: 'Add translation to dictionary',
-    documentUrlPatterns: ['*://translate.google.com/*'],
-    onclick: (evt, tab) => {
-      chrome.tabs.executeScript(tab.id, {
-        file: 'scripts/parse.js'
-      }, (results) => {
-        const result = results[0]
-        if (!result) {
-          // TODO Show notification
-          return
-        }
-
-        // Return null if some property is empty
-        const validationProperties = ['name', 'translate', 'lang_to']
-
-        const isValid = validationProperties.every((validate) => {
-          const val = result[validate]
-
-          if (!val) {
-            console.log('Fail', validate)
-            // TODO Show notification
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: name,
+      title: 'Add translate to dictionary',
+      documentUrlPatterns: ['*://translate.google.com/*'],
+      onclick: (evt, tab) => {
+        chrome.tabs.executeScript(tab.id, {
+          file: 'scripts/parse.js'
+        }, (results) => {
+          const result = results[0]
+          if (!result) {
+            createNotification('Error', 'No results found')
+            return
           }
 
-          return val
-        })
+          // Return null if some property is empty
+          const validationProperties = ['name', 'translate', 'lang_to']
 
-        console.log('valid', isValid, chrome)
-        if (isValid) {
-          db.add(result)
-            .then((obj) => {
-              console.log(obj)
-            })
-            .catch((err) => {
-              // TODO Show notification
-              console.log(err)
-            })
-        }
-      })
-    }
+          const isValid = validationProperties.every((validate) => {
+            const val = result[validate]
+
+            if (!val) {
+              createNotification('Validation is failed', validate)
+            }
+
+            return val
+          })
+
+          if (isValid) {
+            result._dictionary = chooseWordDictionary()
+
+            db.add(result)
+              .then(() => createNotification('Translation added', result.name))
+              .catch((err) => createNotification(err))
+          }
+        })
+      }
+    })
   })
 })
-
-/* | ------------------------------------------------------------------------------
- * | - Alarm -
- * | ------------------------------------------------------------------------------
- */
-
-// chrome.alarms.create('asd', {
-//   when: Date.now() + 1
-// })
-
-// chrome.notifications.create('dictionary-new-tab', {
-//   type: 'basic',
-//   iconUrl: '', // TODO
-//   title: 'test',
-//   requireInteraction: false,
-//   silent: true,
-//   message: 'контрольная работа'
-// })
-
-// setTimeout(() => {
-//   chrome.notifications.clear('dictionary-new-tab')
-// }, 2000)

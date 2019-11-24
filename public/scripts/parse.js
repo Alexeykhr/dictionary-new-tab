@@ -146,7 +146,6 @@
   el = document.querySelector('.gt-cd-baf .gt-baf-table > tbody');
   if (el) {
     var currentTranslation = null;
-    var translations = [];
 
     for (var i = 0; i < el.children.length; i++) {
       if (!el.children[i].classList.contains('gt-baf-entry')) {

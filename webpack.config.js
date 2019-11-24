@@ -95,7 +95,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './src/index.ejs',
-        inject: true,
+        inject: 'head',
         chunks: ['main'],
         meta: {
           description: 'Create an automatic portfolio based on Github and other various data',

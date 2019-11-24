@@ -10,10 +10,11 @@
       "static/background.js"
     ]
   },
+  "icons": {
+    "24": "img/icon.png"
+  },
   "permissions": [
     "tabs",
-    "webRequest",
-    "webNavigation",
     "tts",
     "notifications",
     "alarms",
