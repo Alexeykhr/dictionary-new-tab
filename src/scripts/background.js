@@ -42,7 +42,7 @@ db.init().then(() => {
           })
 
           if (isValid) {
-            result._dictionary = chooseWordDictionary()
+            result._dictionary = chooseWordDictionary('new')
 
             db.add(result)
               .then(() => createNotification('Translation added', result.name))
