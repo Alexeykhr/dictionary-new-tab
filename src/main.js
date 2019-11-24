@@ -84,7 +84,7 @@ function mount(obj) {
       if (deleteWord()) {
         db.delete(obj)
           .then(() => {
-            createNotification('Success', obj.name)
+            createNotification('Word Successfully Deleted', obj.name)
             location.reload()
           })
           .catch((err) => createNotification('Error', err))
