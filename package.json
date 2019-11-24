@@ -1,7 +1,7 @@
 {
   "name": "dictionary-new-tab",
   "version": "1.0.0",
-  "description": "",
+  "description": "Study Dictionary when you open a new tab",
   "main": "src/main.js",
   "scripts": {
     "dev": "webpack-dev-server --progress",

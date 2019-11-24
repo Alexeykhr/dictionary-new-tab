@@ -1,8 +1,10 @@
+@import "variables";
+
 :root {
-  --primary: #aaa8ff;
-  --color: #eee;
-  --background: #1c1e2f;
-  --background-secondary: #2c2f47;
+  --color: #{$color};
+  --colorSecondary: #{$color};
+  --background: #{$background};
+  --backgroundSecondary: #{$backgroundSecondary};
 }
 
 /* width */
@@ -17,20 +19,12 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--background-secondary);
+  background: var(--backgroundSecondary);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
-
-*[data-ttl] {
-  transition: .1s;
-  cursor: pointer;
-  &:hover {
-    color: var(--primary);
-  }
+  background: var(--colorSecondary);
 }
 
 html, body {
@@ -40,26 +34,20 @@ html, body {
 body {
   background: var(--background);
   color: var(--color);
+  font-size: 16px;
+  margin: 0;
 }
 
-header {
-  margin-bottom: 50px;
-  text-align: center;
-}
-
-section {
-  background: var(--background-secondary);
-  border-left: 2px solid var(--background-secondary);
-  padding: 20px;
-  margin-top: 40px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-  > .title {
-    margin-bottom: 20px;
-    text-transform: capitalize;
-    font-size: 16px;
-    font-weight: bold;
-    user-select: none;
-    cursor: context-menu;
-    padding-bottom: 10px;
+main {
+  max-width: 1024px;
+  margin: 120px auto 0;
+  will-change: margin-top;
+  > * {
+    margin-left: 130px;
+    margin-right: 130px;
   }
+}
+
+a {
+  text-decoration: none;
 }

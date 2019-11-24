@@ -17,6 +17,15 @@ export function shuffle(arr) {
 }
 
 /**
+ * Variable is array and has values
+ * @param {*} arr
+ * @returns {boolean}
+ */
+export function exists(arr) {
+  return Array.isArray(arr) && !!arr.length
+}
+
+/**
  * Always returns a random number between min and max (both included)
  * @param {number} min
  * @param {number} max
@@ -28,5 +37,6 @@ export function rnd(min, max) {
 
 export default {
   shuffle,
+  exists,
   rnd
 }

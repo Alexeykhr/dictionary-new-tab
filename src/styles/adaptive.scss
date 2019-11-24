@@ -1,0 +1,44 @@
+@media only screen and (max-width: 1024px) {
+  #word {
+    font-size: 5rem;
+  }
+  #translate {
+    font-size: 2rem;
+  }
+  #bottom-right {
+    top: 30px;
+    left: 20px;
+    right: auto;
+    bottom: auto;
+  }
+  #top-left {
+    position: relative;
+    margin-top: 50px;
+    left: auto;
+    top: auto;
+    text-align: center;
+    > * {
+      display: inline-block;
+      margin-bottom: 0;
+      padding: 20px;
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #word {
+    font-size: 4rem;
+  }
+  #top-left {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  main {
+    margin-top: 50px;
+  }
+}

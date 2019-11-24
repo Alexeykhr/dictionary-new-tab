@@ -1,6 +1,16 @@
 // Global
 @import "global";
-@import "common";
+
+// Additional
+@import "additional";
 
 // Pages
 @import "home";
+
+// Parts
+@import "parts/translations";
+@import "parts/definitions";
+@import "parts/examples";
+
+// Adaptive design
+@import "adaptive";

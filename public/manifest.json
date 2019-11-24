@@ -1,21 +1,24 @@
 {
   "name": "Dictionary New Tab",
   "version": "1.0",
-  "description": "Test",
+  "description": "Study Dictionary when you open a new tab",
   "chrome_url_overrides" : {
     "newtab": "index.html"
   },
-  "page_action": {
-    "default_title": "Google Mail",
-    "default_popup": "index.html"
+  "background": {
+    "scripts": [
+      "static/background.js"
+    ]
+  },
+  "icons": {
+    "24": "img/icon.png"
   },
   "permissions": [
     "tabs",
-    "webRequest",
-    "webNavigation",
     "tts",
-    "storage",
-    "https://translate.google.com/*"
+    "notifications",
+    "contextMenus",
+    "*://translate.google.com/*"
   ],
   "manifest_version": 2
 }
