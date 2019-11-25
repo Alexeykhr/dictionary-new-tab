@@ -5,7 +5,7 @@ import { name } from '../../package'
 export function create(title, message) {
   chrome.notifications.create(name, {
     type: 'basic',
-    iconUrl: 'img/icon.png',
+    iconUrl: 'img/book128.png',
     title: title,
     silent: true,
     message: message

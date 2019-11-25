@@ -11,7 +11,9 @@
     ]
   },
   "icons": {
-    "24": "img/icon.png"
+    "16": "img/book16.png",
+    "48": "img/book48.png",
+    "128": "img/book128.png"
   },
   "permissions": [
     "tabs",
