@@ -2,6 +2,7 @@
 
 import { create as createNotification } from '@/helper/notification'
 import { chooseWordDictionary } from '@/helper/prompt'
+import dictionary from '@/helper/dictionary'
 import { name } from '../../package.json'
 import DB from '@/app/DB'
 
@@ -17,7 +18,11 @@ db.init().then(() => {
     chrome.contextMenus.create({
       id: name,
       title: 'Add translate to dictionary',
-      documentUrlPatterns: ['*://translate.google.com/*'],
+      documentUrlPatterns: [
+        '*://translate.google.com/*',
+        '*://translate.google.com.ru/*',
+        '*://translate.google.com.ua/*'
+      ],
       onclick: (evt, tab) => {
         chrome.tabs.executeScript(tab.id, {
           file: 'scripts/parse.js'
@@ -42,7 +47,7 @@ db.init().then(() => {
           })
 
           if (isValid) {
-            result._dictionary = chooseWordDictionary('new')
+            result._dictionary = chooseWordDictionary(dictionary.get() || '')
 
             db.add(result)
               .then(() => createNotification('Translation added', result.name))
