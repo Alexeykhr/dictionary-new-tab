@@ -22,6 +22,10 @@ data has been added to your dictionary.
 Not sure which words to add? Here is a short list of words:
 [Github Folder](https://github.com/Alexeykhr/dictionary-new-tab/tree/master/words)
 
+## Install
+
+[Chrome Web Store](https://chrome.google.com/webstore/detail/dictionary-new-tab/bkkafkeibcbagogpnepjnkpgfpjfghla)
+
 ## Images
 
 <table>
@@ -39,6 +43,8 @@ Not sure which words to add? Here is a short list of words:
 
 Since there are no bookmarks, top sites and other default sections, here is a list of the necessary hot keys
 for quick access to the address line and other sections without using the mouse.
+
+### Chrome
 
 - `CTRL + T` - new tab | **global**
 - `CTRL + W` - close tab | **global**
