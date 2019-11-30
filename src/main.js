@@ -25,6 +25,12 @@ db.init()
   })
 
 function mount(obj) {
+  /*
+   * Global
+   */
+
+  document.title = `${obj.name} - ${obj.translate}`
+
   const app = document.querySelector('#app')
   app.style.opacity = null
 
