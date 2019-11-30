@@ -20,7 +20,9 @@
     "tts",
     "notifications",
     "contextMenus",
-    "*://translate.google.com/*"
+    "*://translate.google.com/*",
+    "*://translate.google.com.ru/*",
+    "*://translate.google.com.ua/*"
   ],
   "manifest_version": 2
 }
